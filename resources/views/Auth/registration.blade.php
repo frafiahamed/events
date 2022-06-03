@@ -3,6 +3,14 @@
 <head>
 	<title>Events Registration</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		@media (min-width: 992px){
+			.navbar-expand-lg .navbar-collapse {
+				display: contents!important;
+				flex-basis: auto;
+			}
+		}
+	</style>
 </head>
 <body>
 	<nav class="navbar navbar-light navbar-expand-lg mb-5" style="background-color: #e3f2fd;">
@@ -16,14 +24,14 @@
 			<ul class="navbar-nav">
 				@guest
 				<li class="nav-item">
+                    <a class="nav-link" href="{{ route('pre-events') }}">List of Events</a>
+                </li>
+				<li class="nav-item">
 					<a class="nav-link" href="{{ route('login') }}">Login</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ route('register-user') }}">Register</a>
-				</li>
-				<li class="nav-item">
-                    <a class="nav-link" href="{{ route('pre-events') }}">List of Events</a>
-                </li>
+				</li>				
 				@else
 				<li class="nav-item">
 					<a class="nav-link" href="{{ route('signout') }}">Logout</a>
@@ -43,7 +51,7 @@
 						<form action="{{ route('register.custom') }}" method="POST">
 							@csrf
 							<div class="form-group mb-3">
-								<label for="event_name">First Name:</label>
+								<label for="event_name"><strong>First Name</strong></label>
 								<input type="text" placeholder="Enter Firstname" id="firstname" class="form-control" name="firstname"
 								required autofocus>
 								@if ($errors->has('firstname'))
@@ -51,7 +59,7 @@
 								@endif
 							</div>
 							<div class="form-group mb-3">
-								<label for="event_name">Last Name:</label>
+								<label for="event_name"><strong>Last Name</strong></label>
 								<input type="text" placeholder="Enter Lastname" id="lastname" class="form-control" name="lastname"
 								required autofocus>
 								@if ($errors->has('lastname'))
@@ -59,7 +67,7 @@
 								@endif
 							</div>
 							<div class="form-group mb-3">
-								<label for="event_name">Email ID:</label>
+								<label for="event_name"><strong>Email ID</strong></label>
 								<input type="text" placeholder="Enter your Email ID" id="email_address" class="form-control"
 								name="email" required autofocus>
 								@if ($errors->has('email'))
@@ -67,7 +75,7 @@
 								@endif
 							</div>
 							<div class="form-group mb-3">
-								<label for="event_name">Password:</label>
+								<label for="event_name"><strong>Password</strong></label>
 								<input type="password" placeholder="Enter Your Strong Password" id="password" class="form-control"
 								name="password" required>
 								@if ($errors->has('password'))
@@ -79,7 +87,7 @@
 								$minDate = $today->modify('-18 years');
 							?>
 							<div class="form-group mb-3">
-								<label for="event_name">Date Of Birth:</label>
+								<label for="event_name"><strong>Date Of Birth</strong></label>
 								<input type="date" placeholder="Enter your Email ID" id="dob" class="form-control"
 								name="dob" required min="<?php echo $minDate->format('Y-m-d'); ?> ">
 								@if ($errors->has('dob'))
@@ -87,18 +95,18 @@
 								@endif
 							</div>
 							<div class="form-group mb-3">
-								<label for="event_name">Gender:</label>
-								<input type="radio" name="gender" id="gender" value="M">Male
-								<input type="radio" name="gender" id="gender" value="F">Female
+								<label for="event_name"><strong>Gender</strong></label>
+								<input type="radio" name="gender" value="M">Male
+								<input type="radio" name="gender" value="F">Female
 								@if ($errors->has('gender'))
 								<span class="text-danger">{{ $errors->first('gender') }}</span>
 								@endif
 							</div>
-							<div class="form-group mb-3">
+							<!-- <div class="form-group mb-3">
 								<div class="checkbox">
 									<label><input type="checkbox" name="remember"> Remember Me</label>
 								</div>
-							</div>
+							</div> -->
 							<div class="d-grid mx-auto">
 								<button type="submit" class="btn btn-dark btn-block">Sign up</button>
 							</div>

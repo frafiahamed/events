@@ -4,6 +4,14 @@
 	<title>Add Events</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<style>
+		@media (min-width: 992px){
+			.navbar-expand-lg .navbar-collapse {
+				display: contents!important;
+				flex-basis: auto;
+			}
+		}
+	</style>
 </head>
 <body>
 	<nav class="navbar navbar-light navbar-expand-lg mb-5" style="background-color: #e3f2fd;">
@@ -44,7 +52,7 @@
                         <form method="POST" action="{{ route('add.event') }}">
                             @csrf
                             <div class="form-group mb-3">
-                            	<label for="event_name">Event Name</label>
+                            	<label for="event_name"><strong>Event Name</strong></label>
                                 <input type="text" placeholder="Enter Event Name" id="event_name" class="form-control" name="event_name" required
                                 autofocus>
                                 @if ($errors->has('event_name'))
@@ -53,7 +61,7 @@
                             </div>
 
                             <div class="form-group mb-3">
-                            	<label for="event_name">Start Date</label>
+                            	<label for="event_name"><strong>Start Date</strong></label>
                                 <input type="text" placeholder="Start Date" id="start_date" class="form-control" name="start_date" required onfocus="(this.type='date')">
                                 @if ($errors->has('start_date'))
                                 <span class="text-danger">{{ $errors->first('start_date') }}</span>
@@ -61,17 +69,17 @@
                             </div>
 
                             <div class="form-group mb-3">
-                            	<label for="event_name">End Date</label>
-                                <input type="date" placeholder="End Date" id="end_date" class="form-control" name="end_date" required>
+                            	<label for="event_name"><strong>End Date</strong></label>
+                                <input type="text" placeholder="End Date" id="end_date" class="form-control" name="end_date" required onfocus="(this.type='date')">
                                 @if ($errors->has('end_date'))
                                 <span class="text-danger">{{ $errors->first('end_date') }}</span>
                                 @endif
                             </div>
 
                             <div class="form-group mb-3 form-wrapper">
-                            	<label for="event_name">Email ID</label>
+                            	<label for="event_name"><strong>Email ID</strong></label>
                             	<div>
-	                                <input type="email" placeholder="Email ID" class="form-control" name="email_id[]" required>
+	                                <input type="email" placeholder="Enter Email ID" class="form-control" name="email_id[]" required>
 	                                <button class="add-button" title="Add field">Add</button>
 	                            </div>
                                 @if ($errors->has('email_id'))
@@ -95,7 +103,7 @@
 
 	jQuery(document).ready(function(){
 	    var maxLimit = 5;
-	    var appendHTML = '<div><input type="email" placeholder="Email ID" class="form-control" name="email_id[]" value="" required><button class="remove-button" title="Remove field">Remove</button></div>';
+	    var appendHTML = '<div><input type="email" placeholder="Enter Email ID" class="form-control" name="email_id[]" value="" required><button class="remove-button" title="Remove field">Remove</button></div>';
 
 	    var x = 1;
 	    

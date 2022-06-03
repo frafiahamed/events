@@ -3,6 +3,14 @@
 <head>
 	<title>List of Events</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		@media (min-width: 992px){
+			.navbar-expand-lg .navbar-collapse {
+				display: contents!important;
+				flex-basis: auto;
+			}
+		}
+	</style>
 </head>
 <body>
 	<nav class="navbar navbar-light navbar-expand-lg mb-5" style="background-color: #e3f2fd;">
@@ -16,14 +24,14 @@
 			<ul class="navbar-nav">
 				@guest
 				<li class="nav-item">
+					<a class="nav-link" href="{{ route('pre-events') }}">List of Events</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link" href="{{ route('login') }}">Login</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ route('register-user') }}">Register</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ route('pre-events') }}">List of Events</a>
-				</li>
+				</li>				
 				@else
 				<li class="nav-item">
 					<a class="nav-link" href="{{ route('signout') }}">Logout</a>
@@ -41,7 +49,7 @@
 		<div class="row justify-content-center">
 			<div class="col-md-10">
 				<div class="card">					
-					<h3 class="card-header text-center">Latest 10 List of Events</h3>					
+					<h3 class="card-header text-center">Latest 10 - List of Events</h3>					
 				</div>
 				<br>
 				<?php if(count($datalist) !=0 && !empty($datalist)){ ?>
@@ -69,9 +77,6 @@
 							    @endforeach
 							</tbody>
 						</table>
-					</div>
-					<div class="d-felx justify-content-center">
-						{{ $datalist->links() }}
 					</div>
 				<?php } else {
 					echo 'No records found';

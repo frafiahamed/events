@@ -3,6 +3,14 @@
 <head>
     <title>Events Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @media (min-width: 992px){
+            .navbar-expand-lg .navbar-collapse {
+                display: contents!important;
+                flex-basis: auto;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-light navbar-expand-lg mb-5" style="background-color: #e3f2fd;">

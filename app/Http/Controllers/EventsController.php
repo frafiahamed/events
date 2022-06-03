@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Mail;
 
 class EventsController extends BaseController
 {
@@ -20,7 +21,7 @@ class EventsController extends BaseController
             return view('Events.postevents');
         } else {
 
-            $results = Events::orderBy('id', 'desc')->paginate(10);
+            $results = Events::limit(10)->orderBy('id', 'desc')->get();
 
             return view('Events.preevents', [
                 'datalist' => $results
@@ -66,6 +67,16 @@ class EventsController extends BaseController
         $data = $request->all();
         $check = $this->createEvents($data);
 
+        $sendData['event_id'] = 1;
+        $sendData['email_ids'] = json_encode($data['email_id']);
+        $sendData['event_name'] = $data['event_name'];
+        $sendData['start_date'] = $data['start_date'];
+        $sendData['end_date'] = $data['end_date'];
+
+        if(env('MAIL_STATUS') == 1){
+            $this->send($sendData);
+        }
+
         return redirect("events-list")->withSuccess('You have Created Event Successfully');
     }
 
@@ -88,6 +99,11 @@ class EventsController extends BaseController
 
     public function customEventSearch(Request $request){
         
+        if(!Auth::check()){
+            return redirect("/")->withSuccess('You are not allowed to access');
+        }      
+        
+
         $event_name = $request->event_name;
         $start_date = $request->start_date;
         $end_date   = $request->end_date;
@@ -112,11 +128,25 @@ class EventsController extends BaseController
 
         $dataSearch->get();
 
-        $data = $dataSearch->paginate(3);
+        $data = $dataSearch->paginate(10);
 
         return view('Events.postevents', [
             'datalist' => $data
-        ])->with('i', (request()->input('page',1) - 1) * 3);
+        ])->with('i', (request()->input('page',1) - 1) * 10);
 
+    }
+
+
+    public function send($data)
+    {
+        $emailids = json_decode($data['email_ids']);
+
+        foreach($emailids as $email){
+            Mail::send('email.send', ['email' => $email,'event_name' => $event_name,'start_date' => $start_date,'end_date' => $end_date], function ($message) use ($email)
+            {
+                $message->from('developer@gmail.com', 'Ahamed');
+                $message->to($email);
+            });
+        }        
     }
 }

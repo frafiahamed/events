@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-ini_set('memory_limit', '1024M'); // or you could use 1G
+
 class AuthController extends BaseController
 {    
  
@@ -52,7 +52,7 @@ class AuthController extends BaseController
             'firstname' => 'required|string|max:255|min:4',
             'lastname' => 'required|string|max:255|min:4',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/',
             'dob' => 'required|date|before_or_equal:' . Carbon::now()->subYears(18)->toDateString(),
             'gender' => 'required',
         ]);
@@ -60,7 +60,7 @@ class AuthController extends BaseController
         $data = $request->all();
         $check = $this->create($data);
           
-        return redirect("dashboard")->withSuccess('You have signed-in');
+        return redirect("/")->withSuccess('You have signed-in');
     }
  
  

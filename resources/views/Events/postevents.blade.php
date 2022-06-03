@@ -4,6 +4,15 @@
 	<title>List of Events</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<style>
+		@media (min-width: 992px){
+			.navbar-expand-lg .navbar-collapse {
+				display: contents!important;
+				flex-basis: auto;
+			}
+		}
+	</style>
 </head>
 <body>
 	<nav class="navbar navbar-light navbar-expand-lg mb-5" style="background-color: #e3f2fd;">
@@ -39,9 +48,14 @@
 </nav>
 <main class="eventlist-form">
 	<div class="cotainer">
-		<div class="row justify-content-center">
+		<div class="row justify-content-center">			
 			<div class="col-md-10">
-				<div class="card">					
+				@if(session('success'))
+                    <div class="alert alert-success closed" role="alert">
+                      {{session('success')}}
+                    </div>
+                @endif
+				<div class="card">		
 					<h3 class="card-header text-center">List of Events</h3>
 					<div class="card-body">
 						<form action="{{ route('events.search') }}" method="POST">
@@ -54,11 +68,11 @@
 								  </div>
 								  <div class="col">
 								  	<label><strong>Start Date</strong></label>
-								    <input type="date" class="form-control" placeholder="Start Date" aria-label="Start Date" name="start_date" value="{{request('start_date')}}">
+								    <input type="text" class="form-control" placeholder="Start Date" aria-label="Start Date" name="start_date" value="{{request('start_date')}}" onfocus="(this.type='date')">
 								  </div>
 								  <div class="col">
 								  	<label><strong>End Date</strong></label>
-								    <input type="date" class="form-control" placeholder="End Date" aria-label="End Date" name="end_date" value="{{request('end_date')}}">
+								    <input type="text" class="form-control" placeholder="End Date" aria-label="End Date" name="end_date" value="{{request('end_date')}}" onfocus="(this.type='date')">
 								  </div>
 								</div>
 							</div>
@@ -78,11 +92,11 @@
 								<th scope="col">S.no</th>
 								<th scope="col">Event Name</th>
 								<th scope="col">Start Date</th>
-								<th scope="col">End Data</th>
-								<th scope="col">Status</th>
+								<th scope="col">End Date</th>
+								<!-- <th scope="col">Status</th> -->
 							</thead>
 							<tbody>
-								<?php  $sn = 1; ?>
+								<?php  if(!empty($_REQUEST['page']) && $_REQUEST['page'] != 1) $sn = ($_REQUEST['page'] * 5) + 1; else $sn = 1; ?>
 							    @foreach($datalist as $key => $events)
 							    	
 							        <tr>
@@ -90,7 +104,7 @@
 							            <td>{{ $events->event_name }}</td>
 							            <td>{{ $events->start_date }}</td>
 							            <td>{{ $events->end_date }}</td>
-							            <td>@if( $events->status == 1) Active @else Inactive @endif</td>
+							            <!-- <td>@if( $events->status == 1) Active @else Inactive @endif</td> -->
 							        </tr>
 							        
 							    @endforeach
@@ -107,6 +121,12 @@
 		</div>
 	</div>
 </main>
-<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script> -->
+<script type="text/javascript">
+    $(function(){
+        setTimeout(function(){
+            $('.closed').hide();
+        }, 3000);
+    });
+</script>
 </body>
 </html>
